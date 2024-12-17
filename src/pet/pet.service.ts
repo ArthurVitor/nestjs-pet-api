@@ -1,12 +1,21 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  OnModuleInit,
+  Scope,
+} from '@nestjs/common';
 import { CreatePetDto } from './dto/create-pet.dto';
 import { Pet } from './entities/pet.entity';
 import { PetMapper } from '../mapper/pet-mapper';
 import { ListPetDto } from './dto/list-pet.dto';
 
-@Injectable()
-export class PetService {
+@Injectable({ scope: Scope.REQUEST })
+export class PetService implements OnModuleInit {
   private pets: Pet[] = [];
+
+  onModuleInit() {
+    console.log('Module initiated');
+  }
 
   private *idGenerator(): Generator<number> {
     let id = 1;
